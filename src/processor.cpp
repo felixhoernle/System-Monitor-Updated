@@ -5,5 +5,11 @@
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
 
-    return (float)LinuxParser::ActiveJiffies() / (float)LinuxParser::Jiffies();
+    activejiffies_ = LinuxParser::ActiveJiffies();
+    jiffies_ = LinuxParser::Jiffies();
+    utilization_ = std::abs((float)(activejiffies_ - prevactivejiffies_) / (float)(jiffies_ - prevjiffies_));
+    prevactivejiffies_ = activejiffies_;
+    prevjiffies_ = jiffies_;
+
+    return utilization_;
 }
