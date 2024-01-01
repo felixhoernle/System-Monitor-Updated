@@ -11,7 +11,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-// DONE: An example of how to read data from the filesystem
+// An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
   string line;
   string key;
@@ -34,7 +34,7 @@ string LinuxParser::OperatingSystem() {
   return value;
 }
 
-// DONE: An example of how to read data from the filesystem
+// An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
   string os, version, kernel;
   string line;
@@ -95,16 +95,13 @@ float LinuxParser::MemoryUtilization() {
   return (memtotal - memfree) / memtotal;
 }
 
-// TODO: Read and return the system uptime
+// Read and return the system uptime
 long LinuxParser::UpTime() {
   string line;
   string uptime;
   std::ifstream filestream(kProcDirectory + kUptimeFilename);
   if (filestream.is_open()) {
     std::getline(filestream, line);
-    // std::replace(line.begin(), line.end(), ' ', '_');
-    // std::replace(line.begin(), line.end(), ':', ' ');
-    // std::replace(line.begin(), line.end(), '"', ' ');
     std::istringstream linestream(line);
     while (linestream >> uptime) {
       return stol(uptime);
@@ -153,7 +150,7 @@ long LinuxParser::IdleJiffies() {
   return (stol(values[kIdle_]) + stol(values[kIOwait_]));
 }
 
-// TODO: Read and return CPU utilization
+// Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() {
   string key;
   string line;
@@ -162,9 +159,6 @@ vector<string> LinuxParser::CpuUtilization() {
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
     std::getline(filestream, line);
-    // std::replace(line.begin(), line.end(), ':', ' ');
-    //  std::replace(line.begin(), line.end(), ':', ' ');
-    //  std::replace(line.begin(), line.end(), '"', ' ');
     std::istringstream linestream(line);
     while (linestream >> key >> user >> nice >> system >> idle >> iowait >>
            irq >> softirq >> steal >> guest >> guest_nice) {
@@ -177,7 +171,7 @@ vector<string> LinuxParser::CpuUtilization() {
   return {};  // If nothing has been created, return empty vector
 }
 
-// TODO: Read and return the total number of processes
+// Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
   string line;
   string key;
@@ -185,13 +179,9 @@ int LinuxParser::TotalProcesses() {
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
-      // std::replace(line.begin(), line.end(), ' ', '_');
-      // std::replace(line.begin(), line.end(), ':', ' ');
-      // std::replace(line.begin(), line.end(), '"', ' ');
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == "processes") {
-          // std::replace(value.begin(), value.end(), '_', ' ');
           return stoi(value);
         }
       }
@@ -200,7 +190,7 @@ int LinuxParser::TotalProcesses() {
   return 0;
 }
 
-// TODO: Read and return the number of running processes
+// Read and return the number of running processes
 int LinuxParser::RunningProcesses() {
   string line;
   string key;
@@ -208,13 +198,9 @@ int LinuxParser::RunningProcesses() {
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
-      // std::replace(line.begin(), line.end(), ' ', '_');
-      // std::replace(line.begin(), line.end(), ':', ' ');
-      // std::replace(line.begin(), line.end(), '"', ' ');
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == "procs_running") {
-          // std::replace(value.begin(), value.end(), '_', ' ');
           return stoi(value);
         }
       }

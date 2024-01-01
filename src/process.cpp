@@ -46,4 +46,5 @@ bool Process::operator<(Process const& a) const {
   return a.CpuUtilization() < this->CpuUtilization();
 }
 
+// Setter method to set process PID
 void Process::setPid(int pid) { pid_ = pid; }
