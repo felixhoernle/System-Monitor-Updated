@@ -1,15 +1,15 @@
 #include "processor.h"
+
 #include "linux_parser.h"
 
-
 // TODO: Return the aggregate CPU utilization
-float Processor::Utilization() { 
+float Processor::Utilization() {
+  activejiffies_ = LinuxParser::ActiveJiffies();
+  jiffies_ = LinuxParser::Jiffies();
+  utilization_ = std::abs((float)(activejiffies_ - prevactivejiffies_) /
+                          (float)(jiffies_ - prevjiffies_));
+  prevactivejiffies_ = activejiffies_;
+  prevjiffies_ = jiffies_;
 
-    activejiffies_ = LinuxParser::ActiveJiffies();
-    jiffies_ = LinuxParser::Jiffies();
-    utilization_ = std::abs((float)(activejiffies_ - prevactivejiffies_) / (float)(jiffies_ - prevjiffies_));
-    prevactivejiffies_ = activejiffies_;
-    prevjiffies_ = jiffies_;
-
-    return utilization_;
+  return utilization_;
 }
