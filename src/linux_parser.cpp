@@ -215,7 +215,12 @@ string LinuxParser::Command(int pid) {
     std::istringstream linestream(line);
     linestream >> command;
   }
-  return command;
+  if (command.length() > 40) {
+    return command.substr(0,40) + "...";
+  }
+  else {
+    return command;
+  }
 }
 
 // Read and return the memory used by a process
