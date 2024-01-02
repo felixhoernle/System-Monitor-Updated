@@ -8,10 +8,10 @@ class Processor {
   // Declare any necessary private members
  private:
   float utilization_;
-  long activejiffies_;
+  long activeJiffies_;
   long jiffies_;
-  long prevactivejiffies_ = 0.0;
-  long prevjiffies_ = 0.0;
+  long prevActiveJiffies_ = 0.0;
+  long prevJiffies_ = 0.0;
 };
 
 #endif

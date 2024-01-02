@@ -24,9 +24,9 @@ int Process::Pid() { return pid_; }
 
 // Return this process's CPU utilization
 float Process::CpuUtilization() const {
-  float active_time = LinuxParser::ActiveJiffies(pid_) / sysconf(_SC_CLK_TCK);
+  float activeTime = LinuxParser::ActiveJiffies(pid_) / sysconf(_SC_CLK_TCK);
   float seconds = Process::UpTime();
-  return active_time / seconds;
+  return activeTime / seconds;
 }
 
 // Return the command that generated this process
@@ -34,8 +34,8 @@ string Process::Command() { return LinuxParser::Command(pid_); }
 
 // Return this process's memory utilization
 string Process::Ram() {
-  long ram_kB = stol(LinuxParser::Ram(pid_));
-  return to_string(ram_kB / 1024);
+  long ramKB = stol(LinuxParser::Ram(pid_));
+  return to_string(ramKB / 1024);
 }
 
 // Return the user (name) that generated this process

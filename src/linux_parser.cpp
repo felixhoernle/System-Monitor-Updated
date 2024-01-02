@@ -74,23 +74,23 @@ float LinuxParser::MemoryUtilization() {
   string line;
   string key;
   string value;
-  float memtotal;
-  float memfree;
+  float memTotal;
+  float memFree;
   std::ifstream filestream(kProcDirectory + kMeminfoFilename);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == filterMemTotalString) {
-          memtotal = stof(value);
+          memTotal = stof(value);
         } else if (key == filterMemFreeString) {
-          memfree = stof(value);
+          memFree = stof(value);
         }
       }
     }
   }
   filestream.close();
-  return (memtotal - memfree) / memtotal;
+  return (memTotal - memFree) / memTotal;
 }
 
 // Read and return the system uptime
@@ -117,21 +117,21 @@ long LinuxParser::Jiffies() {
 long LinuxParser::ActiveJiffies(int pid) {
   string value;
   string line;
-  long activejiffies = 0;
+  long activeJiffies = 0;
   std::ifstream filestream(kProcDirectory + to_string(pid) + kStatFilename);
   if (filestream.is_open()) {
     std::getline(filestream, line);
     std::istringstream linestream(line);
     for (int i = 1; i <= 17; i++) {
       linestream >> value;
-      if (i == 14) activejiffies += stol(value);
-      if (i == 15) activejiffies += stol(value);
-      if (i == 16) activejiffies += stol(value);
-      if (i == 17) activejiffies += stol(value);
+      if (i == 14) activeJiffies += stol(value);
+      if (i == 15) activeJiffies += stol(value);
+      if (i == 16) activeJiffies += stol(value);
+      if (i == 17) activeJiffies += stol(value);
     }
   }
   filestream.close();
-  return activejiffies;
+  return activeJiffies;
 }
 
 // Read and return the number of active jiffies for the system
