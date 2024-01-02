@@ -26,6 +26,7 @@ string LinuxParser::OperatingSystem() {
       while (linestream >> key >> value) {
         if (key == "PRETTY_NAME") {
           std::replace(value.begin(), value.end(), '_', ' ');
+          filestream.close();
           return value;
         }
       }
@@ -44,6 +45,7 @@ string LinuxParser::Kernel() {
     std::istringstream linestream(line);
     linestream >> os >> version >> kernel;
   }
+  stream.close();
   return kernel;
 }
 
@@ -87,6 +89,7 @@ float LinuxParser::MemoryUtilization() {
       }
     }
   }
+  filestream.close();
   return (memtotal - memfree) / memtotal;
 }
 
@@ -98,9 +101,9 @@ long LinuxParser::UpTime() {
   if (filestream.is_open()) {
     std::getline(filestream, line);
     std::istringstream linestream(line);
-    while (linestream >> uptime) {
-      return stol(uptime);
-    }
+    linestream >> uptime;
+    filestream.close();
+    return stol(uptime);
   }
   return 0;  // If uptime hasn't been captured, return 0
 }
@@ -127,6 +130,7 @@ long LinuxParser::ActiveJiffies(int pid) {
       if (i == 17) activejiffies += stol(value);
     }
   }
+  filestream.close();
   return activejiffies;
 }
 
@@ -158,6 +162,7 @@ vector<string> LinuxParser::CpuUtilization() {
     while (linestream >> key >> user >> nice >> system >> idle >> iowait >>
            irq >> softirq >> steal >> guest >> guest_nice) {
       if (key == filterCpu) {
+        filestream.close();
         return {user, nice,    system, idle,  iowait,
                 irq,  softirq, steal,  guest, guest_nice};
       }
@@ -177,6 +182,7 @@ int LinuxParser::TotalProcesses() {
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == filterProcesses) {
+          filestream.close();
           return stoi(value);
         }
       }
@@ -196,6 +202,7 @@ int LinuxParser::RunningProcesses() {
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == filterRunningProcesses) {
+          filestream.close();
           return stoi(value);
         }
       }
@@ -213,6 +220,7 @@ string LinuxParser::Command(int pid) {
     std::getline(stream, line);
     std::istringstream linestream(line);
     linestream >> command;
+    stream.close();
   }
   if (command.length() > 40) {
     return command.substr(0,40) + "...";
@@ -233,6 +241,7 @@ string LinuxParser::Ram(int pid) {
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == filterProcMem) {
+          filestream.close();
           return value;
         }
       }
@@ -252,6 +261,7 @@ string LinuxParser::Uid(int pid) {
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == filterUID) {
+          filestream.close();
           return value;
         }
       }
@@ -274,6 +284,7 @@ string LinuxParser::User(int pid) {
       std::istringstream linestream(line);
       while (linestream >> user >> passwd >> value) {
         if (value == uid) {
+          filestream.close();
           return user;
         }
       }
@@ -295,6 +306,7 @@ long LinuxParser::UpTime(int pid) {
       while (linestream >> uptime) {
         counter += 1;
         if (counter == 22) {
+          filestream.close();
           return stol(uptime);
         }
       }
