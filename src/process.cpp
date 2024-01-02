@@ -14,10 +14,7 @@ using std::to_string;
 using std::vector;
 
 // Construct a class object
-Process::Process (int pid) {
-
-  pid_ = pid;
-}
+Process::Process(int pid) { pid_ = pid; }
 
 // Return this process's ID
 int Process::Pid() { return pid_; }
@@ -30,7 +27,14 @@ float Process::CpuUtilization() const {
 }
 
 // Return the command that generated this process
-string Process::Command() { return LinuxParser::Command(pid_); }
+string Process::Command() {
+  auto command = LinuxParser::Command(pid_);
+  if (command.length() > 40) {
+    return command.substr(0, 40) + "...";
+  } else {
+    return command;
+  }
+}
 
 // Return this process's memory utilization
 string Process::Ram() {

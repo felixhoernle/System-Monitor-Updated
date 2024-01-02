@@ -15,7 +15,8 @@ string Format::ElapsedTime(long seconds) {
 
   // Create a C-string, print elapsed time in output format to it and then
   // convert it to a std::string
-  char c[9]; // C-string has to have space for time plus terminating null character
+  char c[9];  // C-string has to have space for time plus terminating null
+              // character
   snprintf(c, 9, "%02ld:%02ld:%02ld", hours, minutes, seconds);
   string s(c);
 
