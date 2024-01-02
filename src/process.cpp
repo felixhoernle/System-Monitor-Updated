@@ -13,6 +13,12 @@ using std::string;
 using std::to_string;
 using std::vector;
 
+// Construct a class object
+Process::Process (int pid) {
+
+  pid_ = pid;
+}
+
 // Return this process's ID
 int Process::Pid() { return pid_; }
 
@@ -45,6 +51,3 @@ long int Process::UpTime() const {
 bool Process::operator<(Process const& a) const {
   return a.CpuUtilization() < this->CpuUtilization();
 }
-
-// Setter method to set process PID
-void Process::setPid(int pid) { pid_ = pid; }
