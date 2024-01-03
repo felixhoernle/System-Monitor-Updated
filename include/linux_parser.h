@@ -26,7 +26,7 @@ const std::string filterMemFreeString("MemFree:");
 const std::string filterCpu("cpu");
 const std::string filterUID("Uid:");
 const std::string filterProcMem(
-    "VmRSS:");  // Usin VmRSS instead of VmSize because we only want physical
+    "VmRSS:");  // Using VmRSS instead of VmSize because we only want physical
                 // memory
 
 // System
